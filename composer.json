@@ -1,0 +1,11 @@
+{
+    "name": "s/p",
+    "autoload": {
+        "psr-4": {
+            "S\\P\\": "src/"
+        }
+    },
+    "require": {
+        "php-webdriver/webdriver": "^1.15"
+    }
+}
