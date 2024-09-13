@@ -33,3 +33,7 @@ function removeLastFour($str) {
 function removeQuotes($str) {
     return str_replace('"', '', $str);
 }
+
+function replaceSlash($str) {
+    return str_replace("/", "_", $str);
+}

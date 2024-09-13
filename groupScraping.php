@@ -3,6 +3,7 @@
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -30,17 +31,37 @@ foreach ($dirs as $dir) {
                 while ($row = fgets($stream)) {
                     
                     $link = trim($row);
-
                     $driver = RemoteWebDriver::create('http://localhost:4444/', DesiredCapabilities::firefox());
 
                     $driver->get($link);
                     // Получаю элементы групп
                     try {
 
-                        $productCardsList = $driver->findElement(WebDriverBy::className('product-cards__list'));
+                        $breadCrambs = $driver->findElement(WebDriverBy::className('breadcrumbs__list'));
 
-                        $productCardsItems = $productCardsList->findElements(WebDriverBy::className('product-cards__item'));
+                        $breadCrambsLi = $breadCrambs->findElements(WebDriverBy::className('breadcrumbs__item'));
 
+                        $productCards = $driver->findElement(WebDriverBy::className('product-cards'));
+
+                        $productCardsLists = $productCards->findElements(WebDriverBy::className('product-cards__list'));
+
+                        $active = 0;
+                        $classes = [];
+                        foreach ($productCardsLists as $key => $productCardList) {
+                            
+                            $classes = explode(' ', $productCardList->getAttribute('class'));
+
+                            if(!in_array('side-menu__content-item--none-active', $classes)) {
+                                
+                                $active = $key;
+                                
+                            }
+
+                        }
+
+                        $productCardsItems = $productCardsLists[$active]->findElements(WebDriverBy::className('product-cards__item'));
+
+                        
                     } catch (NoSuchElementException $e) {
 
                         $driver->quit();
@@ -54,11 +75,9 @@ foreach ($dirs as $dir) {
                         
                         try {
 
-                            $img = $productCardItem->findElement(WebDriverBy::tagName('img'));
+                            $imgLink = $productCardItem->findElement(WebDriverBy::className('product-cards__image'));
 
-                            $linkP = $productCardItem->findElement(WebDriverBy::className('product-cards__title'));
-
-                            $link = $linkP->findElement(WebDriverBy::tagName('a'));
+                            $img = $imgLink->findElement(WebDriverBy::tagName('img'));
 
                         } catch (NoSuchElementException $e) {
                            
@@ -68,8 +87,16 @@ foreach ($dirs as $dir) {
 
                         }
 
-                        $nameGroup = removeQuotes(replaceSpace($link->getText()));
-                        $hrefSubGroup = URL_SMARTA . trim($link->getAttribute('href'));
+                        $nameGroup = replaceSlash(removeQuotes(replaceSpace($breadCrambsLi[count($breadCrambsLi) - 1]->getText())));
+
+                        $relation = replaceSlash(removeQuotes(replaceSpace($img->getAttribute('alt'))));
+
+                        $hrefSubGroup = URL_SMARTA . trim($imgLink->getAttribute('href'));
+
+                        if(!checkUrl($hrefSubGroup)) {
+
+                            continue;
+                        } 
 
                         if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $nameGroup)) {
 
@@ -102,8 +129,10 @@ foreach ($dirs as $dir) {
                     
                         }
 
-                        file_put_contents($newDir . '/relation.txt', $nameGroup . "\n", FILE_APPEND);
-                        file_put_contents($newDir . '/links.txt', $hrefSubGroup . "\n", FILE_APPEND);
+                        file_put_contents($newDir . '/relation.txt', $relation . "\n", FILE_APPEND);
+                        if(checkUrl($hrefSubGroup)) {
+                            file_put_contents($newDir . '/links.txt', $hrefSubGroup . "\n", FILE_APPEND);
+                        }
                     }
 
                     $driver->quit();
