@@ -37,3 +37,22 @@ function removeQuotes($str) {
 function replaceSlash($str) {
     return str_replace("/", "_", $str);
 }
+
+function uniqueUrl($path) {
+    $stream = fopen($path, 'r');
+    $arr = [];
+    while ($row = fgets($stream)) {
+        if(!in_array(trim($row),  $arr)) {
+            $arr[] = trim($row);
+        }
+    }
+
+    fclose($stream);
+    unlink($path);
+
+    $stream = fopen($path, 'w');
+
+    foreach ($arr as $value) {
+        fputs($stream, $value . "\n");
+    }
+}
