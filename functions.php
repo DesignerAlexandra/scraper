@@ -56,3 +56,10 @@ function uniqueUrl($path) {
         fputs($stream, $value . "\n");
     }
 }
+
+function removeExtensionName($fileName): string
+{
+    $parts = explode(".", $fileName);
+    $fileNameWithoutExtension = $parts[0];
+    return $fileNameWithoutExtension;
+}
