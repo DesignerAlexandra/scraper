@@ -10,17 +10,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/constants.php';
 
-$exists = scandir(__DIR__ . '/dataProducts');
-$existProducts = [];
-foreach ($exists as $file) {
-    if(in_array($file, ['.', '..'])) {
-        continue;
-    }
-
-    $existProducts[] = removeExtensionName($file);
-}
-
-
 $dirs = scandir(STRUCT_DIR);
 
 $serverUrl = 'http://localhost:4444';
@@ -60,6 +49,9 @@ foreach ($dirs as $dir) {
 
             foreach ($subgroups as $subgroupForSubgroup) {
                 
+                $path = '';
+                $pathDir = '';
+
                 if(in_array($subgroupForSubgroup, $exceptionsDir)) {
                     continue;
                 }
@@ -71,8 +63,8 @@ foreach ($dirs as $dir) {
                 } else {
 
                     $path = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup;
-                    $dir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup;
-                    scraperProducts($serverUrl, $path, $dir, $subgroupForSubgroup);
+                    $pathDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup;
+                    scraperProducts($serverUrl, $path, $pathDir, $subgroupForSubgroup);
 
                 }
                 
@@ -83,8 +75,8 @@ foreach ($dirs as $dir) {
                     }
 
                     $path = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup . '/' . $nextSungroup;
-                    $dir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup;
-                    scraperProducts($serverUrl, $path, $dir, $subgroupForSubgroup);
+                    $pathDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup;
+                    scraperProducts($serverUrl, $path, $pathDir, $subgroupForSubgroup);
 
                 }
             }
@@ -119,6 +111,8 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
         $header = ['headers'];
         $data = [];
         $price = $driver->findElement(WebDriverBy::cssSelector('span.product-detail__price-new'))->getText();
+        $stockBlock = $driver->findElement(WebDriverBy::className('product-detail__stock'));
+        $stock = $stockBlock->findElement(WebDriverBy::tagName('span'))->getText();
         foreach ($tr as $key => $el) {
             try {
                 $td = $el->findElements(WebDriverBy::cssSelector('td.td_attr_table_border'));
@@ -131,6 +125,7 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
         }
 
         $header[] = 'price';
+        $header[] = 'stock';
         if(count($checkHeader) != count($header)) {
             $flag = true;
         }
@@ -147,6 +142,7 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
         }
 
         $data[] = $newPrice;
+        $data[] = $stock;
         fputcsv($stream2, $data, ';');
 
 
