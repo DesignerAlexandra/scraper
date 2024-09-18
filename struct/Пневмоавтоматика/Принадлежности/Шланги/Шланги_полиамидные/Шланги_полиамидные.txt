@@ -4,7 +4,6 @@ http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_1/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_200_m_4/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_53/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_200_m_10/
-http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_41/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_33/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_26/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_24/
@@ -36,6 +35,7 @@ http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_200_m_11/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_48/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_46/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_44/
+http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_41/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_100_m_37/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_200_m_6/
 http://smarta.ru/product/shlang_poliamidnyy_1_bukhta_200_m_5/

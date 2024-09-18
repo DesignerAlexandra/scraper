@@ -46,6 +46,10 @@ foreach ($dirs as $dir) {
                     continue;
                 }
 
+                if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup)) {
+                    continue;
+                }
+
                 $subgroupForSubgroups = scandir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup);
 
                 foreach ($subgroupForSubgroups as $nextLevel) {    

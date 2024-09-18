@@ -104,15 +104,26 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
             $tr = $table->findElements(WebDriverBy::cssSelector('tr'));
 
         } catch (NoSuchElementException $th) {
+            $driver->quit();
+            continue;
             var_dump('элемент не найден');
         }
 
 
         $header = ['headers'];
         $data = [];
-        $price = $driver->findElement(WebDriverBy::cssSelector('span.product-detail__price-new'))->getText();
-        $stockBlock = $driver->findElement(WebDriverBy::className('product-detail__stock'));
-        $stock = $stockBlock->findElement(WebDriverBy::tagName('span'))->getText();
+
+        try {
+            $price = $driver->findElement(WebDriverBy::cssSelector('span.product-detail__price-new'))->getText();
+            $stockBlock = $driver->findElement(WebDriverBy::className('product-detail__stock'));
+            $stock = $stockBlock->findElement(WebDriverBy::tagName('span'))->getText();
+        } catch (NoSuchElementException $th) {
+            var_dump('элемент не найден');
+            $driver->quit();
+            continue;
+        }
+        
+
         foreach ($tr as $key => $el) {
             try {
                 $td = $el->findElements(WebDriverBy::cssSelector('td.td_attr_table_border'));
