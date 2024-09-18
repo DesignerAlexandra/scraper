@@ -32,6 +32,9 @@ foreach ($dirs as $dir) {
         $subgroups = scandir(STRUCT_DIR . '/' . $dir . '/' . $group);
 
         foreach ($subgroups as $subgroup) {
+
+            $path = '';
+            $pathDir = '';
             
             if(in_array($subgroup, $exceptionsDir)) {
                 continue;
@@ -43,7 +46,9 @@ foreach ($dirs as $dir) {
 
             } else {
 
-               var_dump($subgroup);
+                $path = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup;
+                $pathDir = STRUCT_DIR . '/' . $dir . '/' . $group;
+                scraperProducts($serverUrl, $path, $pathDir, $subgroup);
 
             }
 
@@ -69,14 +74,26 @@ foreach ($dirs as $dir) {
                 }
                 
                 foreach ($nextSungroups as $nextSungroup) {
+
+                    $path = '';
+                    $pathDir = '';
                      
                     if(in_array($nextSungroup, $exceptionsDir)) {
                         continue;
                     }
 
-                    $path = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup . '/' . $nextSungroup;
-                    $pathDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup;
-                    scraperProducts($serverUrl, $path, $pathDir, $subgroupForSubgroup);
+
+                    if(is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup . '/' . $nextSungroup)) {
+
+                        $nextSungroups = scandir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup . '/' . $nextSungroup);
+
+                    } else {
+                        file_put_contents(__DIR__ . '/err.txt', $path . "\n", FILE_APPEND);
+                        $path = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup . '/' . $nextSungroup;
+                        $pathDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $subgroupForSubgroup;
+                        scraperProducts($serverUrl, $path, $pathDir, $nextSungroup);
+
+                    }
 
                 }
             }
