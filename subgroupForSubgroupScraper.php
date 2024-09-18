@@ -196,19 +196,19 @@ foreach ($dirs as $dir) {
 
                                 continue;
                             } 
-                            if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup)) {
+                            if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup)) {
 
-                                mkdir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup, 0700);
+                                mkdir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup, 0700);
                         
                             } 
-                            if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup . '/images')) { 
+                            if(!is_dir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup . '/images')) { 
 
-                                mkdir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup . '/images', 0700);
+                                mkdir(STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup . '/images', 0700);
 
                             }
 
-                            $newDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup;
-                            $newImgDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $nameGroup . '/images';
+                            $newDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup;
+                            $newImgDir = STRUCT_DIR . '/' . $dir . '/' . $group . '/' . $subgroup . '/' . $nameGroup . '/images';
 
                             $imgSrc = $img->getAttribute('src');
 

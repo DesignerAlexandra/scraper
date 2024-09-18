@@ -23,7 +23,6 @@ http://smarta.ru/product/fiting_rezbovoy_234/
 http://smarta.ru/product/fiting_rezbovoy_233/
 http://smarta.ru/product/fiting_rezbovoy_232/
 http://smarta.ru/product/fiting_rezbovoy_231/
-http://smarta.ru/product/fiting_rezbovoy_229/
 http://smarta.ru/product/fiting_rezbovoy_228/
 http://smarta.ru/product/fiting_rezbovoy_227/
 http://smarta.ru/product/zaglushka_80/
@@ -55,7 +54,6 @@ http://smarta.ru/product/fiting_rezbovoy_200/
 http://smarta.ru/product/fiting_rezbovoy_199/
 http://smarta.ru/product/fiting_rezbovoy_198/
 http://smarta.ru/product/fiting_rezbovoy_197/
-http://smarta.ru/product/fiting_rezbovoy_196/
 http://smarta.ru/product/fiting_rezbovoy_195/
 http://smarta.ru/product/fiting_rezbovoy_193/
 http://smarta.ru/product/fiting_rezbovoy_192/
@@ -123,7 +121,6 @@ http://smarta.ru/product/fiting_latunnyy_543/
 http://smarta.ru/product/fiting_latunnyy_542/
 http://smarta.ru/product/fiting_latunnyy_541/
 http://smarta.ru/product/fiting_latunnyy_540/
-http://smarta.ru/product/fiting_latunnyy_539/
 http://smarta.ru/product/fiting_latunnyy_538/
 http://smarta.ru/product/fiting_latunnyy_537/
 http://smarta.ru/product/fiting_latunnyy_536/
@@ -284,9 +281,11 @@ http://smarta.ru/product/bystrorazemnaya_rozetka_3/
 http://smarta.ru/product/bystrorazemnaya_rozetka_2/
 http://smarta.ru/product/fiting_latunnyy_672/
 http://smarta.ru/product/fiting_rezbovoy_235/
+http://smarta.ru/product/fiting_rezbovoy_229/
 http://smarta.ru/product/bystrorazemnyy_shteker_1/
 http://smarta.ru/product/fiting_rezbovoy_207/
 http://smarta.ru/product/zaglushka_79/
+http://smarta.ru/product/fiting_rezbovoy_196/
 http://smarta.ru/product/fiting_rezbovoy_194/
 http://smarta.ru/product/bystrorazemnaya_rozetka/
 http://smarta.ru/product/fiting_latunnyy_3/
@@ -371,6 +370,7 @@ http://smarta.ru/product/fiting_latunnyy_564/
 http://smarta.ru/product/fiting_latunnyy_563/
 http://smarta.ru/product/fiting_latunnyy_562/
 http://smarta.ru/product/fiting_latunnyy_547/
+http://smarta.ru/product/fiting_latunnyy_539/
 http://smarta.ru/product/fiting_latunnyy_532/
 http://smarta.ru/product/fiting_latunnyy_531/
 http://smarta.ru/product/fiting_latunnyy_530/

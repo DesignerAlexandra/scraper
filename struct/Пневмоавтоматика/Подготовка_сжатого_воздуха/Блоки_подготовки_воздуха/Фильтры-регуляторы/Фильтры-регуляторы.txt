@@ -20,7 +20,6 @@ http://smarta.ru/product/filtr_regulyator_112/
 http://smarta.ru/product/filtr_regulyator_102/
 http://smarta.ru/product/filtr_regulyator_97/
 http://smarta.ru/product/filtr_regulyator_96/
-http://smarta.ru/product/filtr_regulyator_90/
 http://smarta.ru/product/filtr_regulyator_89/
 http://smarta.ru/product/filtr_regulyator_68/
 http://smarta.ru/product/filtr_regulyator_65/
@@ -50,6 +49,7 @@ http://smarta.ru/product/filtr_regulyator_98/
 http://smarta.ru/product/filtr_regulyator_94/
 http://smarta.ru/product/filtr_regulyator_92/
 http://smarta.ru/product/filtr_regulyator_91/
+http://smarta.ru/product/filtr_regulyator_90/
 http://smarta.ru/product/sm_30011619_filtr_regulyator/
 http://smarta.ru/product/filtr_regulyator_86/
 http://smarta.ru/product/filtr_regulyator_84/
