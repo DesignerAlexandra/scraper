@@ -3,8 +3,6 @@
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/constants.php';
 
-$dirs = scandir(STRUCT_DIR);
-
 $serverUrl = 'http://localhost:4444';
 $exceptionsDir = ['.', '..', 'images', 'links.txt', 'relation.txt'];
 
@@ -16,38 +14,80 @@ $user = 'dev';
 $db = 'DB';
 $pass ='123';
 
-$pdo = new PDO("mysql:host=$dns:$port;dbname=$db", $user, $pass);
+$pdo = new \PDO("mysql:host=$dns:$port;dbname=$db", $user, $pass);
 
+function runner($path, \PDO $connect, $groupLevel = 1, $parentDirName = '')
+{
+    $dirs = scandir($path);
 
-foreach ($dirs as $dir) {
+    foreach ($dirs as $file) {
 
-    if (substr($dir, -4) != ".csv") {
+        if(in_array($file, ['.', '..'])) continue;
 
-        echo "Файл заканчивается на .csv";
+        if (substr($path, -4) != ".csv") {
+    
+            echo "Файл заканчивается на .csv";
+    
+        } else {
+    
+            $currentPath = $path . '/' . $file;
+    
+            if(!is_dir($path . '/' . $file)) {
+                continue;
+            } 
 
-    } else {
+            if($groupLevel == 1) {
 
-        $currentPath = STRUCT_DIR . '/' . $dir;
+                $sqlGroup = "
+                CREATE TABLE IF NOT EXISTS Groups$groupLevel (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(50) NOT NULL
+                );
+                ";
+    
+                $stmt = $connect->prepare($sqlGroup);
+        
+                $stmt->execute();
 
-        if(!is_dir(STRUCT_DIR . '/' . $dir)) {
-            continue;
-        } 
+                $title = replaceSlash($file);
 
-        $sqlGroup = "
-            CREATE TABLE IF NOT EXISTS Groups$group_level (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(50) NOT NULL
-            );
-        ";
+                $sqlInsert = <<<SQL
+                    INSERT INTO Groups$groupLevel (`title`) VALUES ($title);
+                SQL;
 
-        $stmt = $pdo->prepare($sqlGroup);
+                $stmt = $connect->prepare($sqlInsert);
 
-        $stmt->execute();
+                $stmt->execute();
 
-        $sqlInsert = <<<SQL
-            INSERT INTO Groups$group_level (`title`) VALUES ($dir);
-        SQL;
+            } else {
+                $parentGroupLevl = $groupLevel - 1;
+                $sqlParentGroup = <<<SQL
+                    SELECT id FROM Groups$parentGroupLevl where title = $parentDirName;
+                SQL;
 
+                $stmt = $connect->prepare($sqlParentGroup);
+                $stmt->execute();
+                $id = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+                $sqlGroup = "
+                CREATE TABLE IF NOT EXISTS Groups$groupLevel (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(50) NOT NULL,
+                group{$parentDirName}_id INT,
+                FOREIGN KEY (group{$parentDirName}_id) Groups$parentGroupLevl REFERENCES  (id)
+                );
+                ";
+
+            }
+    
+        }
+
+        runner($currentPath, $connect, $groupLevel + 1, $title);
+    
     }
+}
 
+function replaceSlash($str)
+{
+    return str_replace("\_+", " ", $str);
 }
