@@ -72,7 +72,8 @@ function runner($path, \PDO $connect, $groupLevel = 1, $parentDirName = '')
                     product_id INT,
                     FOREIGN KEY (product_id) REFERENCES products (id),
                     group{$parentGroupLevel}_id INT,
-                    FOREIGN KEY (group{$parentGroupLevel}_id) REFERENCES groups$parentGroupLevel (id)
+                    FOREIGN KEY (group{$parentGroupLevel}_id) REFERENCES groups$parentGroupLevel (id),
+                    UNIQUE(product_id, group{$parentGroupLevel}_id)
                     );
                 ";
 
@@ -99,7 +100,11 @@ function runner($path, \PDO $connect, $groupLevel = 1, $parentDirName = '')
                     ':group_id' => $groupId
                 ];
 
-                pdoIsert($connect, $sqlInsertGroupProduct, $data);
+                try {
+                    pdoIsert($connect, $sqlInsertGroupProduct, $data);
+                } catch (\PDOException $e) {
+                    var_dump($e->getMessage());
+                }
 
             } else {
     

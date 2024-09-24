@@ -78,21 +78,21 @@ $insertParameterValue = <<<SQL
 SQL;
 
 
-// $queryInsertValues = <<<SQL
-//     INSERT INTO parameter_values (`title`) VALUES (:title)
-// SQL;
+$queryInsertValues = <<<SQL
+    INSERT INTO parameter_values (`title`) VALUES (:title)
+SQL;
 
-// $queryInsertParam = <<<SQL
-//     INSERT INTO parameters (title) VALUES (:title);
-// SQL;
+$queryInsertParam = <<<SQL
+    INSERT INTO parameters (title) VALUES (:title);
+SQL;
 
 
-// foreach ($params as $key => $value) {
-//     $stmt = $pdo->prepare($queryInsertParam);
-//     $stmt->execute([
-//         'title' => $key
-//     ]);
-// }
+foreach ($params as $key => $value) {
+    $stmt = $pdo->prepare($queryInsertParam);
+    $stmt->execute([
+        'title' => $key
+    ]);
+}
 
 $stmt = $pdo->prepare($createParameterValue);
 $stmt->execute();
@@ -106,10 +106,10 @@ foreach ($params as $param => $values) {
     $paramId = $stmt->fetchAll(\PDO::FETCH_ASSOC)[0]['id'];
 
     foreach ($values as $key => $value) {
-        // $stmt = $pdo->prepare($queryInsertValues);
-        // $stmt->execute([
-        //     ':title' => $value
-        // ]);
+        $stmt = $pdo->prepare($queryInsertValues);
+        $stmt->execute([
+            ':title' => $value
+        ]);
 
         $stmt = $pdo->prepare($queryGetIdValue);
         $stmt->execute([
