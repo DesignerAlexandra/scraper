@@ -11,6 +11,27 @@ $pass = PASS;
 
 $pdo = new \PDO("mysql:host=$dns:$port;dbname=$db", $user, $pass);
 
+$createCodes = "CREATE TABLE IF NOT EXISTS codes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(20) NOT NULL,
+    count INT DEFAULT NULL,
+    price FLOAT DEFAULT 0.00,
+    name VARCHAR(150),
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    UNIQUE (title)
+    );
+";
+
+$sqlGetIdProduct = "
+SELECT id FROM products WHERE title = '$title';
+";
+
+$sqlInsertCode = "INSERT INTO codes (
+    title, count, price, name, product_id
+    ) VALUES ( :title, :count, :price, :name, :product_id );  
+";
+
 foreach ($files as $file) {
     
     if(in_array($file, ['.', '..'])) continue;
@@ -19,6 +40,7 @@ foreach ($files as $file) {
 
     $title = replaceS(removeExtensionName($file));
 
+
     while($row = fgetcsv($stream, null, ';')) {
 
         if($row[0] == 'headers') continue;
@@ -26,39 +48,25 @@ foreach ($files as $file) {
         $code = $row[0];
         $count = (int)preg_replace("/[^0-9]/", "", $row[count($row) - 1]);
         $price = $row[count($row) - 2] == '' ? '0' : $row[count($row) - 2];
-
-        $createCodes = "CREATE TABLE IF NOT EXISTS codes (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(20) NOT NULL,
-            count INT DEFAULT NULL,
-            price FLOAT DEFAULT 0.00,
-            product_id INT NOT NULL,
-            FOREIGN KEY (product_id) REFERENCES products (id)
-            );
-        ";
+        $price = $row[count($row) - 3];
 
         pdoInit($pdo, $createCodes);
 
-        $sqlGetIdProduct = "
-        SELECT id FROM products WHERE title = '$title';
-        ";
-
         $id = getParentId($pdo, $sqlGetIdProduct);
-
-        $sqlInsertCode = "INSERT INTO codes (
-            title, count, price, product_id
-            ) VALUES ( :title, :count, :price, :product_id
-            );  
-        ";
 
         $data = [
             'title' => $code,
             'count' => $count,
             'price' => $price,
+            'name' => $name,
             'product_id' => $id
         ];
 
-        pdoInsert($pdo, $sqlInsertCode, $data);
+        try {
+            pdoInsert($pdo, $sqlInsertCode, $data);
+        } catch (\PDOException $th) {
+            continue;
+        }
     }
 
 }

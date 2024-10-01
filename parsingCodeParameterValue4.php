@@ -37,14 +37,14 @@ foreach ($files as $file) {
             if($row[0] == 'headers') {
                 $headers = [];
                 foreach ($row as $key => $header) {
-                    if($key != 0 && $key != 1 && $key != count($row) - 1 && $key != count($row) - 2) {
+                    if($key != 0 && $key != 1 && $key != count($row) - 1 && $key != count($row) - 2 && $key != count($row) - 3) {
                         $headers[$key - 1] = $header;
                     }
                 }
             } else {
                 $values = [];
                 foreach ($row as $key => $value) {
-                    if($key != count($row) - 1 && $key != count($row) - 2) {
+                    if($key != count($row) - 1 && $key != count($row) - 2 && $key != count($row) - 3) {
                         if($key == 0) {
                             $data[$value] = [];
                         } else {

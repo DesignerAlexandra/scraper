@@ -9,10 +9,10 @@ function harvester($path)
     foreach ($currentDirs as $file) {
 
         if(in_array($file, ['.', '..'])) continue;
-
         if(strpos($file, '.csv')) {
-            $currentImg = $path . '/' . $file;
-            file_put_contents(__DIR__ . '/data' . "/$file", file_get_contents($currentImg));
+            $currentFile = $path . '/' . $file;
+            // file_put_contents(__DIR__ . '/data' . "/$file", file_get_contents($currentFile));
+            unlink($currentFile);
         }
 
         $currentPath = $path . '/' . $file;
@@ -23,5 +23,6 @@ function harvester($path)
 
     }
 }
+
 
 harvester($struct);

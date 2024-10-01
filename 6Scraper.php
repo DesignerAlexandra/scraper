@@ -26,7 +26,7 @@ function runnerInDir($path = STRUCT_DIR, )
 
     foreach ($dirs as $file) {
         
-        if(in_array($file, $exceptionsDir)) {
+        if(in_array($file, $exceptionsDir) || strpos($file, '.csv')) {
             continue;
         }
 
@@ -56,17 +56,28 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
 
     $driver = RemoteWebDriver::create($url, DesiredCapabilities::firefox());
 
+    $stremUrlWrite = fopen(__DIR__ . '/doneUrl.txt', 'a');
+
     $stream = fopen($path, 'r');
     $newFile = str_replace('.txt', '', $fileName);
     $newFileCSV = $newFile . '.csv';
-    $stream2 = fopen($pathForDir . '/' . $newFileCSV, 'w');
+    $stream2 = fopen($pathForDir . '/' . $newFileCSV, 'a');
+    $doneUrls = file(__DIR__ . '/doneUrl.txt');
+
+    $urls = [];
+    foreach ($doneUrls as $value) {
+        $urls[] = trim($value);
+    }
 
     while ($row = fgets($stream)) {
+
+        if(in_array(trim($row), $urls)) continue;
+
         var_dump(trim($row));
-        $driver->navigate()->to(trim($row));
+        $driver->get(trim($row));
         try {
-            $table = $driver->findElement(WebDriverBy::tagName('tbody'));
-            $tr = $table->findElements(WebDriverBy::cssSelector('tr'));
+            $table = $driver->findElement(WebDriverBy::tagName('table'));
+            $tr = $table->findElements(WebDriverBy::tagName('tr'));
 
         } catch (NoSuchElementException $th) {
             $driver->quit();
@@ -82,6 +93,8 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
             $price = $driver->findElement(WebDriverBy::cssSelector('span.product-detail__price-new'))->getText();
             $stockBlock = $driver->findElement(WebDriverBy::className('product-detail__stock'));
             $stock = $stockBlock->findElement(WebDriverBy::tagName('span'))->getText();
+            $h1 = $driver->findElement(WebDriverBy::className('product-detail__title'));
+            $title = $h1->getText();
         } catch (NoSuchElementException $th) {
             var_dump('элемент не найден');
             $driver->quit();
@@ -100,6 +113,7 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
             $data[] = $td[1]->getText();
         }
 
+        $header[] = 'name';
         $header[] = 'price';
         $header[] = 'stock';
         if(count($checkHeader) != count($header)) {
@@ -117,10 +131,11 @@ function scraperProducts($url, $path, $pathForDir , $fileName)
             $newPrice = substr($newPrice, 0, -1);
         }
 
+        $data[] = $title;
         $data[] = $newPrice;
         $data[] = $stock;
         fputcsv($stream2, $data, ';');
-
+        fputs($stremUrlWrite, trim($row) . "\n");
 
         // writer(RemoteWebDriver::create($serverUrl, DesiredCapabilities::firefox()), trim($row));
     }
