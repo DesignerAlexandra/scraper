@@ -40,7 +40,7 @@ foreach ($files as $file) {
             if($row[0] == 'headers') {
                 $headers = [];
                 foreach ($row as $key => $value) {
-                    if($key != 0 && $key != 1 && $key != count($row) - 1 && $key != count($row) - 2) {
+                    if($key != 0 && $key != 1 && $key != count($row) - 1 && $key != count($row) - 2 && $key != count($row) - 3) {
                         if(!array_key_exists($value, $params)) {
                             $params[$value] = [];
                         }
@@ -49,7 +49,7 @@ foreach ($files as $file) {
                 }
             } else {
                 foreach ($row as $key => $value) {
-                    if($key != 0 && $key != count($row) - 1 && $key != count($row) - 2) {
+                    if($key != 0 && $key != count($row) - 1 && $key != count($row) - 2 && $key != count($row) - 3) {
                         if(!in_array($value, $params[$headers[$key+1]])) {
                             $params[$headers[$key+1]][] = $value;
                         }

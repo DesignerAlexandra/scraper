@@ -11,8 +11,8 @@ function harvester($path)
         if(in_array($file, ['.', '..'])) continue;
         if(strpos($file, '.csv')) {
             $currentFile = $path . '/' . $file;
-            // file_put_contents(__DIR__ . '/data' . "/$file", file_get_contents($currentFile));
-            unlink($currentFile);
+            file_put_contents(__DIR__ . '/data' . "/$file", file_get_contents($currentFile));
+            // unlink($currentFile);
         }
 
         $currentPath = $path . '/' . $file;

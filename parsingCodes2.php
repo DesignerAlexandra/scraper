@@ -16,15 +16,10 @@ $createCodes = "CREATE TABLE IF NOT EXISTS codes (
     title VARCHAR(20) NOT NULL,
     count INT DEFAULT NULL,
     price FLOAT DEFAULT 0.00,
-    name VARCHAR(150),
+    name VARCHAR(150) NOT NULL,
     product_id INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products (id),
-    UNIQUE (title)
-    );
-";
-
-$sqlGetIdProduct = "
-SELECT id FROM products WHERE title = '$title';
+    FOREIGN KEY (product_id) REFERENCES products (id)
+        );
 ";
 
 $sqlInsertCode = "INSERT INTO codes (
@@ -40,6 +35,9 @@ foreach ($files as $file) {
 
     $title = replaceS(removeExtensionName($file));
 
+    $sqlGetIdProduct = "
+        SELECT id FROM products WHERE title = '$title';
+    ";
 
     while($row = fgetcsv($stream, null, ';')) {
 
@@ -48,7 +46,7 @@ foreach ($files as $file) {
         $code = $row[0];
         $count = (int)preg_replace("/[^0-9]/", "", $row[count($row) - 1]);
         $price = $row[count($row) - 2] == '' ? '0' : $row[count($row) - 2];
-        $price = $row[count($row) - 3];
+        $name = $row[count($row) - 3];
 
         pdoInit($pdo, $createCodes);
 

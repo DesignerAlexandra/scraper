@@ -69,16 +69,17 @@ SQL;
 $queryInsertRelation = <<<SQL
     INSERT INTO code_parameter_value (`code_id`, `parameter_id`, `value_id`) VALUES (:code_id, :parameter_id, :value_id)
 SQL;
-$i = 0;
+
 $streamError = fopen(__DIR__ . '/err.csv', 'a');
+
 foreach ($data as $productName => $params) {
-    $i++;
-    $stmtProduct = $pdo->prepare($queryGetPoductId);
-    $stmtProduct->execute([
+
+    $stmtCode = $pdo->prepare($queryGetPoductId);
+    $stmtCode->execute([
         ':title' => $productName
     ]);
 
-    $productId = $stmtProduct->fetchAll(PDO::FETCH_ASSOC)[0]['id'];
+    $codeId = $stmtCode->fetchAll(PDO::FETCH_ASSOC)[0]['id'];
 
 
     foreach ($params as $key => $param) {
@@ -103,7 +104,7 @@ foreach ($data as $productName => $params) {
 
         $stmt = $pdo->prepare($queryInsertRelation);
         $stmt->execute([
-            ':code_id' => $productId,
+            ':code_id' => $codeId,
             ':parameter_id' => $paramId,
             ':value_id' => $valueId
         ]);

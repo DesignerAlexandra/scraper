@@ -162,6 +162,7 @@ function runner($path, \PDO $connect, $groupLevel = 1, $parentDirName = '')
                 title VARCHAR(50) NOT NULL,
                 count INT DEFAULT NULL,
                 price VARCHAR(20) NOT NULL,
+                name VARCHAR(150) NOT NULL,
                 product_id INT NOT NULL,
                 FOREIGN KEY (product_id) REFERENCES products (id)
                 );
