@@ -161,10 +161,11 @@ function runner($path, \PDO $connect, $groupLevel = 1, $parentDirName = '')
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(50) NOT NULL,
                 count INT DEFAULT NULL,
-                price VARCHAR(20) NOT NULL,
+                price FLOAT DEFAULT 0.00,
                 name VARCHAR(150) NOT NULL,
                 product_id INT NOT NULL,
-                FOREIGN KEY (product_id) REFERENCES products (id)
+                FOREIGN KEY (product_id) REFERENCES products (id),
+                UNIQUE(title)
                 );
             ";
 

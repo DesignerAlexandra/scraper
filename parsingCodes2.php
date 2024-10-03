@@ -13,13 +13,14 @@ $pdo = new \PDO("mysql:host=$dns:$port;dbname=$db", $user, $pass);
 
 $createCodes = "CREATE TABLE IF NOT EXISTS codes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(50) NOT NULL,
     count INT DEFAULT NULL,
     price FLOAT DEFAULT 0.00,
     name VARCHAR(150) NOT NULL,
     product_id INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products (id)
-        );
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    UNIQUE(title)
+    );
 ";
 
 $sqlInsertCode = "INSERT INTO codes (
@@ -63,6 +64,7 @@ foreach ($files as $file) {
         try {
             pdoInsert($pdo, $sqlInsertCode, $data);
         } catch (\PDOException $th) {
+            var_dump($th->getMessage());
             continue;
         }
     }
